@@ -1,0 +1,15 @@
+.bg-green{
+	background: #81c784 !important;
+}
+
+.text-white{
+	color:white;
+}
+
+div.scrollable {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+}
