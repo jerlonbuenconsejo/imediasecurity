@@ -6,14 +6,16 @@
 </thead>
 <tbody>	
 	<?php 
-		$sql =  $db->getRows("SELECT * FROM camera_type");
+		$sql =  $db->getRows("SELECT * FROM camera_type WHERE flag = 1");
 		$cat = "camera_type";
         foreach ($sql as $result) {
+        $id = $result->id;
+      	$type = str_replace('&quot;', "&quo", e($result->name));
 		echo "
 			<tr>
 			 <td>".e($result->name)."</td>
 			 <td>
-			 <input type='button' class='btn red ' onclick='editType($result->id,\"$result->name\")'  value='Edit'> 
+			 <input type='button' class='btn red ' onclick='editType($result->id,\"$type\")'  value='Edit'> 
 			 <input type='button' class='btn red ' onclick='remove($result->id,\"$cat\")'  value='&#10006'>
 			 </td>
 			</tr>		
@@ -42,9 +44,14 @@
 		}
 	}
 
+	function rt(text){	
+		return text
+		.replace(/&quo/g, '"')
+		.replace(/&#039;/g, "'");
+	}
 		function editType(id, type){
 		$('#theID').val(id);
-		$('#ectype').val(type);
+		$('#ectype').val(rt(type));
 	    $('#emyModal').modal('show');
 	}
 </script>

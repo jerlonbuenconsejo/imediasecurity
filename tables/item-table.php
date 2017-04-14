@@ -12,19 +12,23 @@
 	<?php 
 		$item =  $db->getRows("SELECT * FROM products WHERE flag = 1  AND itemCat = ".$category."");
 		$cat = "products";
-
         foreach ($item as $result) {
+        	$itemName1 = e($result->itemName);
+			$itemName = str_replace('&quot;', "&quo", e($result->itemName));
+        	$id = $result->id;
+        	$retail = $result->retail_price;
+        	$dealer = $result->dealer_price;
  			echo"
 			<tr>
 			 <td>".img($result->itemImage)."</td>
-			 <td>".e($result->itemName)."</td>
+			 <td>$itemName1</td>
 			 <td>&#8369;".number_format(e($result->retail_price))."</td>
 			 <td>&#8369;".number_format(e($result->dealer_price))."</td>
 			 <td><pre>".e($result->itemDesc)."</pre></td>
 			 <td>
-			 <input type='button' class='btn red btn-warning' onclick='editItem($result->id,\"$result->itemName\",$result->retail_price,$result->dealer_price)' value='Edit'
+			 <input type='button' class='btn red btn-warning' onclick='editItem($id,\"$itemName\",$retail,$dealer)' value='Edit'
 			 >
-			 <input type='button' class='btn red btn-warning' onclick='remove($result->id,\"$cat\")'  value='&#10006'>
+			 <input type='button' class='btn red btn-warning' onclick='remove($id,\"$cat\")'  value='&#10006'>
 			 </td>
 			</tr>		
 			";      
@@ -51,9 +55,14 @@
 		}
 	}
 
-	function editItem(id, itemName,retail,dealer){
+	function replaceTEXT(text){	
+		return text
+		.replace(/&quo/g, '"')
+		.replace(/&#039;/g, "'");
+	}
+	function editItem(id,itemName,retail,dealer){
 		$('#theID').val(id);
-		$('#eitemName').val(itemName);
+		$('#eitemName').val(replaceTEXT(itemName));
 		$('#eretail').val(retail);
 		$('#edealer').val(dealer);
 	    $('#editItem').modal('show');

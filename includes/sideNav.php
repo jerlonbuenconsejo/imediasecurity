@@ -1,4 +1,4 @@
-<?php $cats = $db->getRows("SELECT * FROM categories"); ?>
+<?php $cats = $db->getRows("SELECT * FROM categories WHERE flag = 1"); ?>
 <aside class="app-sidebar" id="sidebar">
   <div class="sidebar-header">
     <a class="sidebar-brand" href="#"><span class="highlight">iMedia </span> Admin</a>

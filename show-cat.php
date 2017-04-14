@@ -114,15 +114,6 @@
 		      <!--BODY-->
 		      <div class="modal-body">
 		          <input name="theID" id="theID" type="hidden" class="form-control"  >
-			      <!-- <div class="row">
-			        <div class="col-md-3">
-			          <label for="item_image">Add Image</label>
-			        </div>
-			        <div class="col-md-7">
-			        	<input name="eitem_image" id="eitem_image" type="file" required class="form-control"  placeholder="">				        
-			        </div>
-			      </div> -->
-
 			      <div class="row">
 			        <div class="col-md-3">
 			          <label for="item">Item Name</label>
@@ -165,7 +156,7 @@
 		      <div class="modal-footer">
 				<!--<b><p id="messageBox" class="bg-warning"></p></b>-->
 		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		        <button type="submit" name="submit" class="btn bg-green text-white">Submit</button>
+		        <button type="submit" name="esubmit" class="btn bg-green text-white">Submit</button>
 		      </div>
 		      </form>
 		    </div>
@@ -181,20 +172,25 @@
 <?php include "includes/requireScript.php";?>
 <?php 
 	if(isset($_POST['submit'])){
-	//$img        = $_FILES['item_image']['name'];
-	//	$temp_img   = $_FILES['item_image']['tmp_name'];
-	//	$moveImg    = move_uploaded_file($temp_img, "images/items/".$img);
+		$img        = $_FILES['item_image']['name'];
+		$temp_img   = $_FILES['item_image']['tmp_name'];
+		$moveImg    = move_uploaded_file($temp_img, "images/items/".$img);
+		$itemName 	= $_POST['itemName'];
+		$retail 	= $_POST['retail'];
+		$dealer 	= $_POST['dealer'];
+		$itemDesc 	= $_POST['itemDesc'];		
+		$sql = $db->insertRow("INSERT INTO products(itemCat,itemImage, itemName, retail_price, dealer_price, itemDesc)VALUES (?,?,?,?,?,?)",[$category,$img, $itemName, $retail,$dealer,$itemDesc]);
+		echo "<meta http-equiv='refresh' content='0'>";	
+	}
+
+	if(isset($_POST['esubmit'])){
+		$id = $_POST['theID'];
 		$itemName 	= $_POST['eitemName'];
 		$retail 	= $_POST['eretail'];
 		$dealer 	= $_POST['edealer'];
-		$itemDesc 	= $_POST['eitemDesc'];
-		$sql = $db->updateRow("INSERT into products(itemImage,itemCat, itemName, retail_price, dealer_price,itemDesc) 
-								VALUES (?,?,?,?,?,?)",[$img,$category, $itemName, $retail, $dealer, e($itemDesc)]);
-		if(!$sql){
-			echo "<script>alert('Error.');</script>";
-		}else{
-			echo "<meta http-equiv='refresh' content='0'>";	
-		}
+		$itemDesc 	= $_POST['eitemDesc'];		
+		$sql = $db->updateRow("UPDATE products SET itemName=?,retail_price=?,dealer_price=?,itemDesc=? WHERE id =? ",[$itemName,$retail,$dealer,$itemDesc,$id]);
+		echo "<meta http-equiv='refresh' content='0'>";	
 	}
 ?>
 </body>

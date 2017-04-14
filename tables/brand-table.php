@@ -6,14 +6,17 @@
 </thead>
 <tbody>	
 	<?php 
-		$sql =  $db->getRows("SELECT * FROM brand");
+		$sql =  $db->getRows("SELECT * FROM brand WHERE flag = 1");
 		$cat = "brand";
         foreach ($sql as $result) {
+        $brand = e($result->name);
+        $brand2 = str_replace('&quot;', "&quo", e($result->name));
+        $id = $result->id;	
 		echo "
 			<tr>
-			 <td>".e($result->name)."</td>
+			 <td>$brand</td>
 			 <td>
-			 <input type='button' class='btn red ' onclick='edit($result->id,\"$result->name\")'  value='Edit'> 
+			 <input type='button' class='btn red ' onclick='edit($result->id,\"$brand2\")'  value='Edit'> 
 			 <input type='button' class='btn red ' onclick='remove($result->id,\"$cat\")'  value='&#10006'>
 			 </td>
 			</tr>		
@@ -42,9 +45,15 @@
 		}
 	}
 
+	function rt(text){	
+		return text
+		.replace(/&quo/g, '"')
+		.replace(/&#039;/g, "'");
+	}
+
 	function edit(id, brand){
 		$('#theID').val(id);
-		$('#ebrand').val(brand);
+		$('#ebrand').val(rt(brand));
 	    $('#editBrand').modal('show');
 	}
 </script>

@@ -1,19 +1,12 @@
 <?php 
-require('./fpdf/pdf.php');
-require_once "config/db_config.php";
-$db = new Database();
-$zipped = "";
-$GLOBALS['total'] = 0;
-$sql =  $db->getRow("SELECT * FROM `quotation_details`
-WHERE quotation_details.id = 2");
+require_once "includes/function.php";
+$s = 'stri"';
 
-$itemList	= unserialize($sql->item_list);
-	$cat 		= unserialize($sql->category);
-	$quantity 	= unserialize($sql->quantity);
-	$zipped 	= array_map(null, $itemList, $cat, $quantity);
-	$pricing	= $sql->pricing;
-	print_r($cat);
-	echo "<br>"; 
-	print_r(array_unique($cat));
+$itemName1 = e($s);
+$itemName = str_replace('&quot;', "&quo", e($s));
+
+echo "<script>alert('$itemName name')</script>";
+
+
 ?>
 
