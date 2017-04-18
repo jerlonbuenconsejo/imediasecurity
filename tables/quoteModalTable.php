@@ -1,6 +1,7 @@
 <?php 
 		include "../config/db_config.php";
 		include "../includes/function.php";
+
 		$db = new Database();
 		$id = $_GET['q'];
 		$sql =  $db->getRows("SELECT * FROM products WHERE itemCat = $id");
@@ -15,16 +16,18 @@
 				</thead>
 				<tbody>	";
         foreach ($sql as $result) {
+        	$item1 = e($result->itemName);
+        	$item2 = str_replace('&quot;', '&quo', $item1);
 		echo "
-
+		
 						<tr>
-						 <td>".e($result->itemName)."</td>	
+						 <td>".$item1."</td>	
 						 <td ><div class='scrollable'></div></td>
 						 <td><input type='text' class='form-control' size='2' id='$result->id' value='1' ></td>
 						 <td>&#8369;".e($result->dealer_price) ."/". e($result->retail_price)."</td>
 						 <td>
 						 <input type='button' class='btn'  value='&#8594;' 
-						 onclick='insertItem($result->id,\"".$result->itemName."\",".$result->retail_price.",\"".e($result->itemDesc)."\",$id)'> 	
+						 onclick='insertItem($result->id,\"".$item2."\",".$result->retail_price.",\"".e($result->itemDesc)."\",$id)'> 	
 						 </td>	
 						</tr>";
      	}
@@ -32,4 +35,10 @@
 				</table>
 			</div>";
 ?>
+
+
+<script type="text/javascript">
+
+
+</script>
 

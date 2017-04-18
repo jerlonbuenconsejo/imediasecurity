@@ -35,7 +35,7 @@ function listItems($cat,$quan, $item){
 	$products = $db->getRow("SELECT * FROM products WHERE id = $item AND itemCat = $cat");
 	$price = ($pricing=='D') ? $products->dealer_price : $products->retail_price;
 	$total = $quan * $price;
-	$pdf->Row(array($quan,"Brand",filter_text($products->itemDesc),number_format($price), number_format($total)),false);
+	$pdf->Row(array($quan,$products->itemName,filter_text($products->itemDesc),number_format($price,2), number_format($total,2)),false);
 	$GLOBALS['total']+=$total;
 }
 
@@ -52,7 +52,7 @@ $pdf = new PDF();
 	$pdf->Cell(40, 6,"$sql->subject" ,0,'C');
 	$pdf->Ln(10);
 	$pdf->Cell(40,6,"Dear Sir/Ma'am:");
-	$pdf->Ln(10);
+	$pdf->Ln(10);	
 	$pdf->MultiCell(0,5,"Thank you for giving us the opportunity to present our CCTV Security Surveillance products. As per your requirements, we are pleased to submit our best offer for the supply of the equipment. The proposal covers the price of equipment.",0);
 	$pdf->Ln(5);
 	$pdf->MultiCell(0,5,"Rest assured that we will only use quality products that exceeds your highest expectations.",0);

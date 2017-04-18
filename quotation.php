@@ -4,6 +4,7 @@ require_once "config/db_config.php";
 $db = new Database();
 $s = $db->getRows("SELECT * FROM categories");
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -120,8 +121,6 @@ $('#devapp').DataTable({
     "ordering": false,
     "info":     false
   });
-  $("#itemList").hide();
-  $("#devices").hide();
 });
 
 //Function for showing items per category.
@@ -165,12 +164,18 @@ String.prototype.replaceAll = function()
   return  newString;
 } 
 
+    function rt(text){  
+    return text
+    .replace(/&quo/g, '"')
+    .replace(/&#039;/g, "'");
+  }
 //append selected items to itemList Div.
 function addToList(itemName,index,qty,price,desc)
-{  
+{ 
+
   var btn = "<a href='#' id='"+index+"' style='color:red;'onclick='removeItem(this,this.id)'>X</a>";
   var helper = "<input type='button' class='btn btn-default' value='?' title='"+desc+"'>";
-  $("#showList").append("<li><h6>"+btn+"<b>Item:</b> "+itemName+" <b>Quantity:</b>"+qty+"<b> Price:</b> "+price+" "+helper +"</h6></li>");
+  $("#showList").append("<li><h6>"+btn+"<b>Item:</b> "+rt(itemName)+" <b>Quantity:</b>"+qty+"<b> Price:</b> "+price+" "+helper +"</h6></li>");
 }
 //get last index of an array.
 Array.prototype.lastIndex = function()
@@ -218,7 +223,7 @@ $("#submitQuote").click(function(event){
     discount:discount
     },
     success: function(data){
-                 location.reload(); 
+      location.reload(); 
     }
   });
 });
